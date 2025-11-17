@@ -1,271 +1,387 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>For My Princess</title>
 
+<!-- Cursive font -->
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
 <style>
-    body {
-        margin: 0;
-        font-family: "Poppins", sans-serif;
-        background: #dfece2; /* soft sage green */
-        overflow-x: hidden;
-    }
+  :root{
+    --sage:#dfece2;
+    --pink:#ff6ea9;
+    --btnGreen:#2f4f39;
+  }
+  body{
+    margin:0;
+    font-family:"Poppins",sans-serif;
+    background:var(--sage);
+    color:#25321f;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+  }
 
-    /* PAGE CONTROLLERS */
-    #page1, #page2 {
-        display: none;
-        padding: 20px;
-        text-align: center;
-    }
-    #page1 { display: block; }
+  /* PAGE containers */
+  .page { display:none; padding:28px 20px; min-height:100vh; box-sizing:border-box; text-align:center; }
+  #page1 { display:block; }
 
-    h1 {
-        font-size: 34px;
-        font-weight: 600;
-        color: #2f3a2f;
-    }
+  /* headings (cursive for the ones requested) */
+  .cursive {
+    font-family:'Great Vibes', cursive;
+    color: #2e3a2f;
+  }
 
-    h2 {
-        font-size: 26px;
-        color: #2f3a2f;
-        margin-top: 10px;
-    }
+  h1.main {
+    font-size:40px;
+    margin:6px 0 8px;
+  }
+  h2.sub {
+    font-size:20px;
+    font-weight:500;
+    margin:8px 0 18px;
+    color:#2f3a2f;
+  }
 
-    /* BUTTONS */
-    .btn {
-        padding: 12px 28px;
-        border-radius: 12px;
-        border: none;
-        font-size: 18px;
-        margin-top: 20px;
-        cursor: pointer;
-        font-weight: 600;
-        background: #2f4f39;
-        color: white;
-        transition: 0.3s;
-    }
-    .btn:hover { opacity: 0.8; }
+  /* general button */
+  .btn {
+    display:inline-block;
+    padding:12px 28px;
+    border-radius:12px;
+    border:none;
+    background:var(--btnGreen);
+    color:#fff;
+    font-weight:600;
+    cursor:pointer;
+    font-size:16px;
+    margin-top:12px;
+  }
+  .btn:active{ transform:scale(.995); }
 
-    /* GLASSY MESSAGE POPUP */
-    .msgBox {
-        position: fixed;
-        top: 50%; 
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 88%;
-        max-width: 380px;
-        padding: 28px;
-        background: rgba(255, 255, 255, 0.22);
-        backdrop-filter: blur(22px);
-        border-radius: 22px;
-        border: 1.5px solid rgba(255,255,255,0.35);
-        box-shadow: 0 0 35px rgba(0,0,0,0.30);
-        color: #2d2d2d;
-        display: none;
-        animation: fadeIn 0.35s ease;
-    }
+  /* msgBox (Open Surprise) */
+  .msgBox {
+    position:fixed;
+    top:50%; left:50%;
+    transform:translate(-50%,-50%);
+    width:88%;
+    max-width:380px;
+    padding:24px;
+    background:rgba(255,255,255,0.22);
+    backdrop-filter:blur(22px);
+    -webkit-backdrop-filter:blur(22px);
+    border-radius:20px;
+    border:1.2px solid rgba(255,255,255,0.35);
+    box-shadow:0 8px 30px rgba(0,0,0,0.18);
+    color:#22331f;
+    display:none;
+    text-align:center;
+  }
+  .msgBox h3 { margin:6px 0 10px; font-family:'Great Vibes',cursive; font-size:28px; } /* Hey My Princess cursive */
 
-    /* GLASSY QUOTE POPUP */
-    .quoteBox {
-        position: fixed;
-        top: 50%; 
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 88%;
-        max-width: 380px;
-        padding: 26px;
-        background: rgba(255, 255, 255, 0.25);
-        backdrop-filter: blur(25px);
-        border-radius: 22px;
-        border: 1.5px solid rgba(255,255,255,0.35);
-        box-shadow: 0 0 35px rgba(0,0,0,0.28);
-        color: #2d2d2d;
-        display: none;
-        animation: fadeIn 0.35s ease;
-        font-family: "Dancing Script", cursive;
-        font-size: 24px;
-        line-height: 1.4;
-        text-align: center;
-    }
+  /* page2 gallery */
+  .quote { margin-top:12px; font-size:18px; color:#2f3a2f; font-weight:500; }
+  .slider-container {
+    width:100%;
+    overflow-x:auto;
+    display:flex;
+    gap:18px;
+    padding:18px;
+    justify-content:center;
+    scroll-snap-type:x mandatory;
+    box-sizing:border-box;
+  }
+  .slide {
+    min-width:240px;
+    height:300px;
+    border-radius:18px;
+    overflow:hidden;
+    position:relative;
+    scroll-snap-align:center;
+    background:#cbd8cc;
+    cursor:pointer;
+    flex:0 0 auto;
+  }
+  .slide img { width:100%; height:100%; object-fit:cover; display:block; }
+  .caption {
+    position:absolute;
+    bottom:8px; left:50%;
+    transform:translateX(-50%);
+    padding:6px 12px;
+    font-size:14px;
+    font-weight:600;
+    color:white;
+    background:rgba(0,0,0,0.35);
+    border-radius:10px;
+  }
 
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translate(-50%, -48%); }
-        to   { opacity: 1; transform: translate(-50%, -50%); }
-    }
+  /* quote popup (page2) */
+  .quoteBox {
+    position:fixed;
+    top:50%; left:50%;
+    transform:translate(-50%,-50%);
+    width:88%; max-width:380px;
+    padding:22px;
+    background:rgba(255,255,255,0.25);
+    backdrop-filter:blur(22px);
+    border-radius:20px;
+    border:1px solid rgba(255,255,255,0.35);
+    box-shadow:0 10px 35px rgba(0,0,0,0.22);
+    display:none;
+    font-family:'Great Vibes',cursive;
+    font-size:22px;
+    color:#243225;
+    text-align:center;
+  }
 
-    /* SLIDESHOW GALLERY */
-    .slider-container {
-        width: 100%;
-        overflow-x: scroll;
-        display: flex;
-        gap: 18px;
-        padding: 15px;
-        justify-content: center;
-        scroll-snap-type: x mandatory;
-    }
+  /* page2 nav buttons area */
+  .nav-row { width:90%; max-width:700px; margin:18px auto 0; display:flex; justify-content:space-between; gap:12px; box-sizing:border-box; }
+  .nav-row .btn { flex:0 0 auto; }
 
-    .slide {
-        min-width: 240px;
-        height: 300px;
-        border-radius: 18px;
-        overflow: hidden;
-        position: relative;
-        scroll-snap-align: center;
-        background: #cbd8cc;
-        cursor: pointer;
-    }
+  /* PAGE 3 styles (calculator) */
+  .game-box {
+    background:rgba(255,255,255,0.26);
+    backdrop-filter:blur(10px);
+    width:90%; max-width:420px;
+    margin:12px auto;
+    padding:22px;
+    border-radius:18px;
+    box-shadow:0 8px 22px rgba(0,0,0,0.12);
+    text-align:center;
+  }
+  .game-box input {
+    width:90%;
+    padding:12px;
+    margin:10px auto;
+    border-radius:12px;
+    border:none;
+    background:rgba(255,255,255,0.5);
+    text-align:center;
+    font-size:18px;
+    cursor:pointer;
+  }
+  .tilt-row { display:flex; gap:10px; justify-content:center; margin-bottom:8px; }
+  .tilt-img { width:90px; border-radius:12px; transform:rotate(-6deg); box-shadow:0 8px 14px rgba(0,0,0,0.12); }
 
-    .slide img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
+  .result { margin-top:14px; font-size:20px; color:#114b2b; font-weight:600; }
+  .result span { font-family:'Great Vibes',cursive; font-size:28px; display:inline-block; margin:0 4px; }
 
-    .caption {
-        position: absolute;
-        bottom: 8px;
-        left: 50%;
-        transform: translateX(-50%);
-        padding: 6px 14px;
-        font-size: 14px;
-        font-weight: 600;
-        color: white;
-        background: rgba(0,0,0,0.35);
-        border-radius: 10px;
-    }
+  .small-row { display:flex; gap:10px; justify-content:center; margin-top:12px; }
 
-    .quote {
-        margin-top: 14px;
-        font-size: 18px;
-        color: #2f3a2f;
-        font-weight: 500;
-        padding: 0 12px;
-    }
+  /* page4 */
+  .thank-box {
+    width:90%; max-width:620px; margin:18px auto; padding:22px;
+    text-align:center; background:rgba(255,255,255,0.18); border-radius:16px; box-shadow:0 6px 18px rgba(0,0,0,0.08);
+    font-size:18px; color:#25321f; line-height:1.6;
+  }
+  .small-love { font-size:16px; margin-top:12px; display:block; color:#ff6ea9; }
+
+  /* small helpers */
+  .hide { display:none !important; }
+  @media (min-width:900px){
+    h1.main{ font-size:44px; }
+  }
 </style>
 </head>
-
 <body>
 
 <!-- PAGE 1 -->
-<div id="page1">
-    <h1>My Princess 💚</h1>
+<section id="page1" class="page">
+  <h1 class="main cursive">My Princess </h1>
 
-    <h2>My Special Message</h2>
+  <h2 class="sub">
+    <!-- exactly the user text -->
+    "Me Pawan 🙃 I want to do something,<br><br>
+    Special for my cutie princess".<br><br>
+    surprise for you 💐💕
+  </h2>
 
-    <button class="btn" onclick="showMsg()">Open Surprise 💌</button>
+  <button class="btn" onclick="showMsgBox()">Open Surprise 💌</button>
 
-    <div class="msgBox" id="msgBox">
-        <h2>Hey My Princess 💚</h2>
-        <p style="font-size: 17px;">
-            hey my cutie you are the best gift i ever receive from god,  
-            and i always trying to respect you my dear.  
-            and also i am sorry if i ever did wrong.
-        </p>
-        <button class="btn" onclick="goToPage2()">Next Surprise ➜</button>
-    </div>
-</div>
+  <!-- small glassy popup (Open Surprise) -->
+  <div id="msgBox" class="msgBox" aria-hidden="true">
+    <h3>Hey My Princess</h3> <!-- cursive by h3 style above -->
+    <p style="margin:6px 0 14px; font-size:16px; color:#243225;">
+      My Cutie You are the Best Gift I Ever Receive from God, and<br>
+      I Always Respect You My Dear.<br>
+      Also I Am So Sorry If I Ever Did Wrong.
+    </p>
+    <button class="btn" onclick="goTo(2)">Next Surprise ➜</button>
+  </div>
+</section>
 
 <!-- PAGE 2 -->
-<div id="page2">
-    <h1>Our Moments 💚</h1>
+<section id="page2" class="page">
+  <h1 class="main cursive">Our Moments 💚</h1>
 
-    <p class="quote">
-        “Tumhare saath har moment romantic nahi hota…  
-        par har moment tumhare wajah se special ho jata hai.” 💫
-    </p>
+  <p class="quote">
+    “Tum ho to har lamha khoobsurat lagta hai....,<br>
+     warna zindagi ko to humne bas jhel hi rakha tha.” ✨
+  </p>
 
-    <!-- SLIDESHOW -->
-    <div class="slider-container" id="gallery">
-
-        <!-- IMAGE 1 -->
-        <div class="slide" onclick="openQuote(1)">
-            <img src="https://i.ibb.co/4RWTLTFy/IMG-20251118-012559-391.jpg">
-            <div class="caption">My cutie 💚</div>
-        </div>
-
-        <!-- IMAGE 2 -->
-        <div class="slide" onclick="openQuote(2)">
-            <img src="https://i.ibb.co/8gQ0KSCr/IMG-20251118-012600-349.jpg">
-            <div class="caption">My happy place 💫</div>
-        </div>
-
-        <!-- IMAGE 3 -->
-        <div class="slide" onclick="openQuote(3)">
-            <img src="https://i.ibb.co/Q3hfFzQZ/IMG-20251118-012601-358.jpg">
-            <div class="caption">Her smile = magic ✨</div>
-        </div>
-
-        <!-- IMAGE 4 -->
-        <div class="slide" onclick="openQuote(4)">
-            <img src="https://i.ibb.co/wZJjWXMP/IMG-20251118-012603-408.jpg">
-            <div class="caption">She shines ✨</div>
-        </div>
-
-        <!-- IMAGE 5 -->
-        <div class="slide" onclick="openQuote(5)">
-            <img src="https://i.ibb.co/398Z93Hx/IMG-20251118-012556-350.jpg">
-            <div class="caption">My angel 💚</div>
-        </div>
-
-        <!-- IMAGE 6 -->
-        <div class="slide" onclick="openQuote(6)">
-            <img src="https://i.ibb.co/XZqrKQ2V/IMG-20251118-012558-199.jpg">
-            <div class="caption">Pure beauty 💫</div>
-        </div>
-
-        <!-- IMAGE 7 -->
-        <div class="slide" onclick="openQuote(7)">
-            <img src="https://i.ibb.co/1gSRZHV/IMG-20251118-012605-499.jpg">
-            <div class="caption">My everything 💚</div>
-        </div>
-
+  <div class="slider-container" id="gallery">
+    <!-- 7 images (user provided) -->
+    <div class="slide" onclick="openQuote(1)">
+      <img src="https://i.ibb.co/4RWTLTFy/IMG-20251118-012559-391.jpg" alt="img1">
+      <div class="caption">My cutie 💚</div>
     </div>
 
-    <!-- BUTTONS -->
-    <button class="btn" onclick="goToPage1()">⬅ Previous</button>
-    <button class="btn" style="margin-left: 10px;">Next Surprise ➜</button>
-</div>
+    <div class="slide" onclick="openQuote(2)">
+      <img src="https://i.ibb.co/8gQ0KSCr/IMG-20251118-012600-349.jpg" alt="img2">
+      <div class="caption">My happy place 💫</div>
+    </div>
 
-<!-- QUOTE POPUP -->
-<div class="quoteBox" id="quoteBox"></div>
+    <div class="slide" onclick="openQuote(3)">
+      <img src="https://i.ibb.co/Q3hfFzQZ/IMG-20251118-012601-358.jpg" alt="img3">
+      <div class="caption">Her smile = magic ✨</div>
+    </div>
+
+    <div class="slide" onclick="openQuote(4)">
+      <img src="https://i.ibb.co/wZJjWXMP/IMG-20251118-012603-408.jpg" alt="img4">
+      <div class="caption">She shines ✨</div>
+    </div>
+
+    <div class="slide" onclick="openQuote(5)">
+      <img src="https://i.ibb.co/398Z93Hx/IMG-20251118-012556-350.jpg" alt="img5">
+      <div class="caption">My angel 💚</div>
+    </div>
+
+    <div class="slide" onclick="openQuote(6)">
+      <img src="https://i.ibb.co/XZqrKQ2V/IMG-20251118-012558-199.jpg" alt="img6">
+      <div class="caption">Pure beauty 💫</div>
+    </div>
+
+    <div class="slide" onclick="openQuote(7)">
+      <img src="https://i.ibb.co/1gSRZHV/IMG-20251118-012605-499.jpg" alt="img7">
+      <div class="caption">My everything 💚</div>
+    </div>
+  </div>
+
+  <div class="nav-row" role="navigation">
+    <button class="btn" onclick="goTo(1)">⬅ Previous</button>
+    <button class="btn" onclick="goTo(3)">Next Surprise ➜</button>
+  </div>
+</section>
+
+<!-- Quote Popup (page2 images) -->
+<div id="quoteBox" class="quoteBox" aria-hidden="true"></div>
+
+<!-- PAGE 3 -->
+<section id="page3" class="page">
+  <h1 class="main cursive">Play Game Shona 💕</h1>
+
+  <div class="game-box">
+    <div class="tilt-row">
+      <!-- two tilted images user gave -->
+      <img src="https://i.ibb.co/1GrhrVhn/98f26c5a-c56c-42c4-99c3-a279ec3d892d.jpg" alt="t1" class="tilt-img">
+      <img src="https://i.ibb.co/mFRXnJPd/bc85ef84-fcd0-4ae0-b1d9-bbb2083296fc.jpg" alt="t2" class="tilt-img">
+    </div>
+
+    <input id="girl" type="text" placeholder="Click here Shona" readonly onclick="fillGirl()" />
+    <input id="boy" type="text" placeholder="Click here Baby" readonly onclick="fillBoy()" />
+
+    <button id="calcBtn" class="btn" onclick="calculateLove()">CALCULATE ❤️</button>
+
+    <div id="resultBox" class="result" aria-live="polite"></div>
+
+    <div id="page3Nav" class="small-row hide">
+      <button class="btn" onclick="goTo(2)">⬅ Previous</button>
+      <button class="btn" onclick="goTo(4)">Next Surprise ➜</button>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 4 -->
+<section id="page4" class="page">
+  <h1 class="main cursive">Thankyou</h1>
+
+  <div class="thank-box">
+    <div style="font-weight:700; font-size:20px; margin-bottom:12px;">Shanaya ji</div>
+
+    <div>
+      Tumhe gale se lagane ke baad ayega<br>
+      Tumhe gale se lagane ke baad ayega<br>
+      Sukoon kitne salo baad ayega.
+    </div>
+
+    <div class="small-love">love you too💕</div>
+
+    <div style="margin-top:18px;">
+      <button class="btn" onclick="goTo(3)">⬅ Previous</button>
+    </div>
+  </div>
+</section>
 
 <script>
-function showMsg() {
-    document.getElementById("msgBox").style.display = "block";
-}
+  /* navigation helper */
+  function goTo(n){
+    // hide all
+    const pages = [1,2,3,4];
+    pages.forEach(i=>{
+      document.getElementById('page'+i).style.display = (i===n)?'block':'none';
+    });
+    // hide popups if any
+    document.getElementById('msgBox').style.display='none';
+    document.getElementById('quoteBox').style.display='none';
+    // reset result nav visibility for page3
+    if(n===3){
+      // leave result if present
+    } else {
+      document.getElementById('page3Nav').classList.add('hide');
+    }
+    window.scrollTo(0,0);
+  }
 
-function goToPage2() {
-    document.getElementById("page1").style.display = "none";
-    document.getElementById("page2").style.display = "block";
-    document.getElementById("msgBox").style.display = "none";
-}
+  /* Page1: Open Surprise popup */
+  function showMsgBox(){
+    document.getElementById('msgBox').style.display='block';
+  }
 
-function goToPage1() {
-    document.getElementById("page2").style.display = "none";
-    document.getElementById("page1").style.display = "block";
-}
-
-function openQuote(num) {
-    let quotes = {
-        1: "“Tum ho to har cheez soft lagti hai… even meri life bhi.” 💚",
-        2: "“Tumhari smile meri weakness bhi hai aur happiness bhi.” ✨",
-        3: "“Tumhari aankhon me jo shine hai… vo kisi star me nahi.” 💫",
-        4: "“Tum jitni cute dikhti ho, usse zyada cute lagti ho mujhe.” 💚",
-        5: "“Tumhare bina har cheez adhuri lagti hai, bilkul meri coffee jaise.” ☕💛",
-        6: "“Tum meri calmness ho… aisi jo dil ko shanti de.” 🌿💚",
-        7: "“Tum sirf meri life me nahi… meri heartbeat me bhi ho.” 💓"
+  /* Page2: image quote popup */
+  function openQuote(num){
+    const quotes = {
+      1: "“Tum ho to har cheez soft lagti hai… even meri life bhi.” 💚",
+      2: "“Tumhari smile meri weakness bhi hai aur happiness bhi.” ✨",
+      3: "“Tumhari aankhon me jo shine hai… vo kisi star me nahi.” 💫",
+      4: "“Tum jitni cute dikhti ho, usse zyada cute lagti ho mujhe.” 💚",
+      5: "“Tumhare bina har cheez adhuri lagti hai, bilkul meri coffee jaise.” ☕💛",
+      6: "“Tum meri calmness ho… aisi jo dil ko shanti de.” 🌿💚",
+      7: "“Tum sirf meri life me nahi… meri heartbeat me bhi ho.” 💓"
     };
+    const box = document.getElementById('quoteBox');
+    box.innerText = quotes[num];
+    box.style.display='block';
+    setTimeout(()=>{ box.style.display='none'; }, 3500);
+  }
 
-    document.getElementById("quoteBox").innerHTML = quotes[num];
-    document.getElementById("quoteBox").style.display = "block";
+  /* Page3: calculator behavior exactly as asked */
+  function fillGirl(){ document.getElementById('girl').value='Shanaya'; }
+  function fillBoy(){ document.getElementById('boy').value='Pawan'; }
 
-    setTimeout(() => {
-        document.getElementById("quoteBox").style.display = "none";
-    }, 3500);
-}
+  function calculateLove(){
+    const g = document.getElementById('girl').value;
+    const b = document.getElementById('boy').value;
+    const resultBox = document.getElementById('resultBox');
+
+    if(g !== 'Shanaya' || b !== 'Pawan'){
+      resultBox.innerText = "Shona dono naam click karke bharo 😌";
+      return;
+    }
+
+    // EXACT result text with normal + cursive mix
+    resultBox.innerHTML = 'Forever vala <span>love</span> hai devi ji koi calculater calculate nhi kar payega😌😌';
+
+    // show Next & Previous buttons for page3 (as requested)
+    document.getElementById('page3Nav').classList.remove('hide');
+    // scroll to result
+    setTimeout(()=>{ window.scrollTo({ top: document.getElementById('page3Nav').offsetTop - 20, behavior:'smooth' }); },200);
+  }
+
+  // ensure initial state (in case)
+  (function init(){
+    // pages start with page1 visible
+    goTo(1);
+  })();
 </script>
-
 </body>
 </html>
