@@ -12,19 +12,26 @@
         background: #bcd9b4; /* Sage Green */
         font-family: "Poppins", sans-serif;
         text-align: center;
-        padding-top: 120px;
     }
 
-    /* Cursive heading */
+    /* Page sections */
+    .page {
+        display: none;
+        padding-top: 120px;
+    }
+    .active {
+        display: block;
+    }
+
+    /* Page 1 Styles */
     h1 {
         font-family: "Dancing Script", cursive;
-        font-size: 4.5rem; /* Increased more */
+        font-size: 4.5rem;
         font-weight: 700;
-        color: #ff6ea9; /* Romantic pink */
+        color: #ff6ea9;
         margin: 0;
     }
 
-    /* Dot animation */
     .dots span {
         display: inline-block;
         font-size: 2.4rem;
@@ -50,7 +57,6 @@
         line-height: 1.6;
     }
 
-    /* Button */
     .btn {
         margin-top: 25px;
         padding: 12px 28px;
@@ -65,31 +71,173 @@
     .btn:hover {
         background: #64c342;
     }
+
+    /* Page 2 Styles */
+    #page2 {
+        padding-top: 40px !important;
+    }
+
+    .title2 {
+        font-family: "Dancing Script", cursive;
+        font-size: 3rem;
+        color: #ff6ea9;
+        margin-bottom: 20px;
+    }
+
+    .container {
+        width: 90%;
+        max-width: 600px;
+        margin: auto;
+    }
+
+    .card {
+        margin-bottom: 40px;
+    }
+
+    .card img {
+        width: 100%;
+        border-radius: 18px;
+        display: block;
+    }
+
+    .caption {
+        margin-top: 10px;
+        font-size: 1.1rem;
+        color: #ff6ea9;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .msgBox {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 80%;
+        max-width: 320px;
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(14px);
+        border-radius: 18px;
+        box-shadow: 0 0 25px rgba(0,0,0,0.25);
+        color: #2d2d2d;
+        display: none;
+        animation: fadeIn 0.4s ease;
+        z-index: 9999;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translate(-50%, -48%); }
+        to { opacity: 1; transform: translate(-50%, -50%); }
+    }
+
+    .closeBtn {
+        margin-top: 12px;
+        padding: 8px 20px;
+        background: #ff6ea9;
+        border: none;
+        color: white;
+        border-radius: 10px;
+        cursor: pointer;
+    }
 </style>
 
-<!-- Google font for cursive -->
 <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet">
 
 </head>
 <body>
 
-    <!-- Heading -->
+<!-- PAGE 1 -->
+<div id="page1" class="page active">
     <h1>My Princess</h1>
 
-    <!-- Dots -->
     <div class="dots">
         <span>.</span><span>.</span><span>.</span>
     </div>
 
-    <!-- Text paragraphs -->
     <p>Me pawan 🙃 I want to do something special for my cutie princess.</p>
     <p>It is special for you 💐💕</p>
     <p>Click below to see my surprise 🫣</p>
 
-    <!-- Button to Page 2 -->
-    <button class="btn" onclick="window.location.href='page2.html'">
-        surprise 😌
-    </button>
+    <button class="btn" onclick="openPage2()">surprise 😌</button>
+</div>
+
+<!-- PAGE 2 -->
+<div id="page2" class="page">
+    <h1 class="title2">Our Moments 💕</h1>
+
+    <div class="container">
+
+        <div class="card">
+            <img src="https://i.ibb.co/4RWTLTFy/IMG-20251118-012559-391.jpg">
+            <div class="caption" onclick="openMsg(1)">Click Me 💗</div>
+        </div>
+
+        <div class="card">
+            <img src="https://i.ibb.co/8gQ0KSCr/IMG-20251118-012600-349.jpg">
+            <div class="caption" onclick="openMsg(2)">Click Me 💗</div>
+        </div>
+
+        <div class="card">
+            <img src="https://i.ibb.co/Q3hfFzQZ/IMG-20251118-012601-358.jpg">
+            <div class="caption" onclick="openMsg(3)">Click Me 💗</div>
+        </div>
+
+        <div class="card">
+            <img src="https://i.ibb.co/wZJjWXMP/IMG-20251118-012603-408.jpg">
+            <div class="caption" onclick="openMsg(4)">Click Me 💗</div>
+        </div>
+
+        <div class="card">
+            <img src="https://i.ibb.co/398Z93Hx/IMG-20251118-012556-350.jpg">
+            <div class="caption" onclick="openMsg(5)">Click Me 💗</div>
+        </div>
+
+        <div class="card">
+            <img src="https://i.ibb.co/XZqrKQ2V/IMG-20251118-012558-199.jpg">
+            <div class="caption" onclick="openMsg(6)">Click Me 💗</div>
+        </div>
+
+        <div class="card">
+            <img src="https://i.ibb.co/1gSRZHV/IMG-20251118-012605-499.jpg">
+            <div class="caption" onclick="openMsg(7)">Click Me 💗</div>
+        </div>
+
+    </div>
+</div>
+
+<!-- POPUP -->
+<div id="msgPopup" class="msgBox">
+    <p id="msgText"></p>
+    <button class="closeBtn" onclick="closeMsg()">Close</button>
+</div>
+
+<script>
+    function openPage2() {
+        document.getElementById("page1").classList.remove("active");
+        document.getElementById("page2").classList.add("active");
+        window.scrollTo(0,0);
+    }
+
+    const msgs = {
+        1: "You are the most special part of my world 💗",
+        2: "Your smile heals everything, my princess 💕",
+        3: "Every moment with you feels magical ✨",
+        4: "I love you more than words can ever say 🌸",
+        5: "You make my heart feel at home 💚",
+        6: "You’re the reason behind my happiest days 🥺💕",
+        7: "Forever yours, forever mine, forever us 💞"
+    };
+
+    function openMsg(n) {
+        document.getElementById("msgText").innerText = msgs[n];
+        document.getElementById("msgPopup").style.display = "block";
+    }
+
+    function closeMsg() {
+        document.getElementById("msgPopup").style.display = "none";
+    }
+</script>
 
 </body>
 </html>
