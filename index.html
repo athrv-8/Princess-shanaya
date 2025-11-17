@@ -3,240 +3,268 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Princess</title>
+<title>For My Princess</title>
 
 <style>
     body {
         margin: 0;
-        padding: 0;
-        background: #bcd9b4; /* Sage Green */
         font-family: "Poppins", sans-serif;
+        background: #dfece2; /* soft sage green */
+        overflow-x: hidden;
+    }
+
+    /* PAGE CONTROLLERS */
+    #page1, #page2 {
+        display: none;
+        padding: 20px;
         text-align: center;
     }
+    #page1 { display: block; }
 
-    /* Page sections */
-    .page {
-        display: none;
-        padding-top: 120px;
-    }
-    .active {
-        display: block;
-    }
-
-    /* Page 1 Styles */
     h1 {
-        font-family: "Dancing Script", cursive;
-        font-size: 4.5rem;
-        font-weight: 700;
-        color: #ff6ea9;
-        margin: 0;
+        font-size: 34px;
+        font-weight: 600;
+        color: #2f3a2f;
     }
 
-    .dots span {
-        display: inline-block;
-        font-size: 2.4rem;
-        color: #ff6ea9;
-        animation: bounce 1s infinite;
-        margin-left: 3px;
-        position: relative;
-        top: -10px;
-    }
-    .dots span:nth-child(2) { animation-delay: 0.2s; }
-    .dots span:nth-child(3) { animation-delay: 0.4s; }
-
-    @keyframes bounce {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-8px); }
+    h2 {
+        font-size: 26px;
+        color: #2f3a2f;
+        margin-top: 10px;
     }
 
-    p {
-        width: 85%;
-        margin: 15px auto;
-        font-size: 1.1rem;
-        color: #2d2d2d;
-        line-height: 1.6;
-    }
-
+    /* BUTTONS */
     .btn {
-        margin-top: 25px;
         padding: 12px 28px;
-        font-size: 1.2rem;
-        background: #7ed957;
+        border-radius: 12px;
         border: none;
-        border-radius: 14px;
-        color: white;
+        font-size: 18px;
+        margin-top: 20px;
         cursor: pointer;
+        font-weight: 600;
+        background: #2f4f39;
+        color: white;
         transition: 0.3s;
     }
-    .btn:hover {
-        background: #64c342;
-    }
+    .btn:hover { opacity: 0.8; }
 
-    /* Page 2 Styles */
-    #page2 {
-        padding-top: 40px !important;
-    }
-
-    .title2 {
-        font-family: "Dancing Script", cursive;
-        font-size: 3rem;
-        color: #ff6ea9;
-        margin-bottom: 20px;
-    }
-
-    .container {
-        width: 90%;
-        max-width: 600px;
-        margin: auto;
-    }
-
-    .card {
-        margin-bottom: 40px;
-    }
-
-    .card img {
-        width: 100%;
-        border-radius: 18px;
-        display: block;
-    }
-
-    .caption {
-        margin-top: 10px;
-        font-size: 1.1rem;
-        color: #ff6ea9;
-        font-weight: 600;
-        cursor: pointer;
-    }
-
+    /* GLASSY MESSAGE POPUP */
     .msgBox {
         position: fixed;
-        top: 50%;
+        top: 50%; 
         left: 50%;
         transform: translate(-50%, -50%);
-        width: 80%;
-        max-width: 320px;
-        padding: 20px;
-        background: rgba(255, 255, 255, 0.15);
-        backdrop-filter: blur(14px);
-        border-radius: 18px;
-        box-shadow: 0 0 25px rgba(0,0,0,0.25);
+        width: 88%;
+        max-width: 380px;
+        padding: 28px;
+        background: rgba(255, 255, 255, 0.22);
+        backdrop-filter: blur(22px);
+        border-radius: 22px;
+        border: 1.5px solid rgba(255,255,255,0.35);
+        box-shadow: 0 0 35px rgba(0,0,0,0.30);
         color: #2d2d2d;
         display: none;
-        animation: fadeIn 0.4s ease;
-        z-index: 9999;
+        animation: fadeIn 0.35s ease;
+    }
+
+    /* GLASSY QUOTE POPUP */
+    .quoteBox {
+        position: fixed;
+        top: 50%; 
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 88%;
+        max-width: 380px;
+        padding: 26px;
+        background: rgba(255, 255, 255, 0.25);
+        backdrop-filter: blur(25px);
+        border-radius: 22px;
+        border: 1.5px solid rgba(255,255,255,0.35);
+        box-shadow: 0 0 35px rgba(0,0,0,0.28);
+        color: #2d2d2d;
+        display: none;
+        animation: fadeIn 0.35s ease;
+        font-family: "Dancing Script", cursive;
+        font-size: 24px;
+        line-height: 1.4;
+        text-align: center;
     }
 
     @keyframes fadeIn {
         from { opacity: 0; transform: translate(-50%, -48%); }
-        to { opacity: 1; transform: translate(-50%, -50%); }
+        to   { opacity: 1; transform: translate(-50%, -50%); }
     }
 
-    .closeBtn {
-        margin-top: 12px;
-        padding: 8px 20px;
-        background: #ff6ea9;
-        border: none;
-        color: white;
-        border-radius: 10px;
+    /* SLIDESHOW GALLERY */
+    .slider-container {
+        width: 100%;
+        overflow-x: scroll;
+        display: flex;
+        gap: 18px;
+        padding: 15px;
+        justify-content: center;
+        scroll-snap-type: x mandatory;
+    }
+
+    .slide {
+        min-width: 240px;
+        height: 300px;
+        border-radius: 18px;
+        overflow: hidden;
+        position: relative;
+        scroll-snap-align: center;
+        background: #cbd8cc;
         cursor: pointer;
     }
+
+    .slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .caption {
+        position: absolute;
+        bottom: 8px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 6px 14px;
+        font-size: 14px;
+        font-weight: 600;
+        color: white;
+        background: rgba(0,0,0,0.35);
+        border-radius: 10px;
+    }
+
+    .quote {
+        margin-top: 14px;
+        font-size: 18px;
+        color: #2f3a2f;
+        font-weight: 500;
+        padding: 0 12px;
+    }
 </style>
-
-<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet">
-
 </head>
+
 <body>
 
 <!-- PAGE 1 -->
-<div id="page1" class="page active">
-    <h1>My Princess</h1>
+<div id="page1">
+    <h1>My Princess 💚</h1>
 
-    <div class="dots">
-        <span>.</span><span>.</span><span>.</span>
+    <h2>My Special Message</h2>
+
+    <button class="btn" onclick="showMsg()">Open Surprise 💌</button>
+
+    <div class="msgBox" id="msgBox">
+        <h2>Hey My Princess 💚</h2>
+        <p style="font-size: 17px;">
+            hey my cutie you are the best gift i ever receive from god,  
+            and i always trying to respect you my dear.  
+            and also i am sorry if i ever did wrong.
+        </p>
+        <button class="btn" onclick="goToPage2()">Next Surprise ➜</button>
     </div>
-
-    <p>Me pawan 🙃 I want to do something special for my cutie princess.</p>
-    <p>It is special for you 💐💕</p>
-    <p>Click below to see my surprise 🫣</p>
-
-    <button class="btn" onclick="openPage2()">surprise 😌</button>
 </div>
 
 <!-- PAGE 2 -->
-<div id="page2" class="page">
-    <h1 class="title2">Our Moments 💕</h1>
+<div id="page2">
+    <h1>Our Moments 💚</h1>
 
-    <div class="container">
+    <p class="quote">
+        “Tumhare saath har moment romantic nahi hota…  
+        par har moment tumhare wajah se special ho jata hai.” 💫
+    </p>
 
-        <div class="card">
+    <!-- SLIDESHOW -->
+    <div class="slider-container" id="gallery">
+
+        <!-- IMAGE 1 -->
+        <div class="slide" onclick="openQuote(1)">
             <img src="https://i.ibb.co/4RWTLTFy/IMG-20251118-012559-391.jpg">
-            <div class="caption" onclick="openMsg(1)">Click Me 💗</div>
+            <div class="caption">My cutie 💚</div>
         </div>
 
-        <div class="card">
+        <!-- IMAGE 2 -->
+        <div class="slide" onclick="openQuote(2)">
             <img src="https://i.ibb.co/8gQ0KSCr/IMG-20251118-012600-349.jpg">
-            <div class="caption" onclick="openMsg(2)">Click Me 💗</div>
+            <div class="caption">My happy place 💫</div>
         </div>
 
-        <div class="card">
+        <!-- IMAGE 3 -->
+        <div class="slide" onclick="openQuote(3)">
             <img src="https://i.ibb.co/Q3hfFzQZ/IMG-20251118-012601-358.jpg">
-            <div class="caption" onclick="openMsg(3)">Click Me 💗</div>
+            <div class="caption">Her smile = magic ✨</div>
         </div>
 
-        <div class="card">
+        <!-- IMAGE 4 -->
+        <div class="slide" onclick="openQuote(4)">
             <img src="https://i.ibb.co/wZJjWXMP/IMG-20251118-012603-408.jpg">
-            <div class="caption" onclick="openMsg(4)">Click Me 💗</div>
+            <div class="caption">She shines ✨</div>
         </div>
 
-        <div class="card">
+        <!-- IMAGE 5 -->
+        <div class="slide" onclick="openQuote(5)">
             <img src="https://i.ibb.co/398Z93Hx/IMG-20251118-012556-350.jpg">
-            <div class="caption" onclick="openMsg(5)">Click Me 💗</div>
+            <div class="caption">My angel 💚</div>
         </div>
 
-        <div class="card">
+        <!-- IMAGE 6 -->
+        <div class="slide" onclick="openQuote(6)">
             <img src="https://i.ibb.co/XZqrKQ2V/IMG-20251118-012558-199.jpg">
-            <div class="caption" onclick="openMsg(6)">Click Me 💗</div>
+            <div class="caption">Pure beauty 💫</div>
         </div>
 
-        <div class="card">
+        <!-- IMAGE 7 -->
+        <div class="slide" onclick="openQuote(7)">
             <img src="https://i.ibb.co/1gSRZHV/IMG-20251118-012605-499.jpg">
-            <div class="caption" onclick="openMsg(7)">Click Me 💗</div>
+            <div class="caption">My everything 💚</div>
         </div>
 
     </div>
+
+    <!-- BUTTONS -->
+    <button class="btn" onclick="goToPage1()">⬅ Previous</button>
+    <button class="btn" style="margin-left: 10px;">Next Surprise ➜</button>
 </div>
 
-<!-- POPUP -->
-<div id="msgPopup" class="msgBox">
-    <p id="msgText"></p>
-    <button class="closeBtn" onclick="closeMsg()">Close</button>
-</div>
+<!-- QUOTE POPUP -->
+<div class="quoteBox" id="quoteBox"></div>
 
 <script>
-    function openPage2() {
-        document.getElementById("page1").classList.remove("active");
-        document.getElementById("page2").classList.add("active");
-        window.scrollTo(0,0);
-    }
+function showMsg() {
+    document.getElementById("msgBox").style.display = "block";
+}
 
-    const msgs = {
-        1: "You are the most special part of my world 💗",
-        2: "Your smile heals everything, my princess 💕",
-        3: "Every moment with you feels magical ✨",
-        4: "I love you more than words can ever say 🌸",
-        5: "You make my heart feel at home 💚",
-        6: "You’re the reason behind my happiest days 🥺💕",
-        7: "Forever yours, forever mine, forever us 💞"
+function goToPage2() {
+    document.getElementById("page1").style.display = "none";
+    document.getElementById("page2").style.display = "block";
+    document.getElementById("msgBox").style.display = "none";
+}
+
+function goToPage1() {
+    document.getElementById("page2").style.display = "none";
+    document.getElementById("page1").style.display = "block";
+}
+
+function openQuote(num) {
+    let quotes = {
+        1: "“Tum ho to har cheez soft lagti hai… even meri life bhi.” 💚",
+        2: "“Tumhari smile meri weakness bhi hai aur happiness bhi.” ✨",
+        3: "“Tumhari aankhon me jo shine hai… vo kisi star me nahi.” 💫",
+        4: "“Tum jitni cute dikhti ho, usse zyada cute lagti ho mujhe.” 💚",
+        5: "“Tumhare bina har cheez adhuri lagti hai, bilkul meri coffee jaise.” ☕💛",
+        6: "“Tum meri calmness ho… aisi jo dil ko shanti de.” 🌿💚",
+        7: "“Tum sirf meri life me nahi… meri heartbeat me bhi ho.” 💓"
     };
 
-    function openMsg(n) {
-        document.getElementById("msgText").innerText = msgs[n];
-        document.getElementById("msgPopup").style.display = "block";
-    }
+    document.getElementById("quoteBox").innerHTML = quotes[num];
+    document.getElementById("quoteBox").style.display = "block";
 
-    function closeMsg() {
-        document.getElementById("msgPopup").style.display = "none";
-    }
+    setTimeout(() => {
+        document.getElementById("quoteBox").style.display = "none";
+    }, 3500);
+}
 </script>
 
 </body>
